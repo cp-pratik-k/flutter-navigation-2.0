@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'navigation_stack_item.dart';
 
-
-
 class NavigationStackManager extends ChangeNotifier {
   final List<NavStackItem> routes;
   late String initialRoutes;
-  final Page errorPage;
 
   NavigationStackManager({
     String initialRoutePath = "/",
     required this.routes,
-    this.errorPage = const MaterialPage(
-      child: Center(
-        child: Text("Error"),
-      ),
-    ),
   }) {
     initialRoutes = initialRoutePath;
     _pages.add(_validRouteFromPath(path: initialRoutePath));

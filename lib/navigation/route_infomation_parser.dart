@@ -17,13 +17,10 @@ class UrlHandlerInformationParser
     if (pathSegments.isEmpty) {
       return stack..clearAndPush(stack.initialRoutes);
     } else {
-      if (stack.getRouteFromPath(path: pathSegments.first) != null) {
-        return stack..clearAndPush(pathSegments.first);
+      if (stack.getRouteFromPath(path: "/${pathSegments.first}") != null) {
+        return stack..clearAndPush("/${pathSegments.first}");
       } else {
-        return NavigationStackManager(routes: [
-          NavStackItem(
-              name: AppPage.other, path: "/error", page: stack.errorPage),
-        ]);
+        return stack..clearAndPush(stack.initialRoutes);
       }
     }
   }
