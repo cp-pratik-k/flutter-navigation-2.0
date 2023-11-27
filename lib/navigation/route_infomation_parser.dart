@@ -1,33 +1,31 @@
 import 'dart:async';
+import 'package:navigation2/navigation/navigation_stack_item.dart';
 import 'navigation_stack_manager.dart';
 import 'package:flutter/material.dart';
-import 'navigation_stack_item.dart';
 
-class UrlHandlerInformationParser
-    extends RouteInformationParser<NavigationStackManager> {
+class UrlHandlerInformationParser extends RouteInformationParser<NavStackItem> {
   final NavigationStackManager stack;
 
   UrlHandlerInformationParser(this.stack);
 
   @override
-  Future<NavigationStackManager> parseRouteInformation(
+  Future<NavStackItem> parseRouteInformation(
       RouteInformation routeInformation) async {
     final pathSegments = routeInformation.uri.pathSegments;
 
     if (pathSegments.isEmpty) {
-      return stack..clearAndPush(stack.initialRoutes);
+      return stack.route(path: stack.initialRoutes);
     } else {
-      if (stack.getRouteFromPath(path: "/${pathSegments.first}") != null) {
-        return stack..clearAndPush("/${pathSegments.first}");
+      if (stack.routeOrNull(path: "/${pathSegments.first}") != null) {
+        return stack.route(path: "/${pathSegments.first}");
       } else {
-        return stack..clearAndPush(stack.initialRoutes);
+        return stack.route(path: stack.initialRoutes);
       }
     }
   }
 
   @override
-  RouteInformation restoreRouteInformation(
-      NavigationStackManager configuration) {
-    return RouteInformation(uri: Uri.parse(configuration.currentState.path));
+  RouteInformation restoreRouteInformation(NavStackItem configuration) {
+    return RouteInformation(uri: Uri.parse(configuration.path));
   }
 }

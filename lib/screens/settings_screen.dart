@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navigation2/navigator.dart';
-import '../navigation/navigation_stack_item.dart';
-import '../navigation/navigation_stack_manager.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

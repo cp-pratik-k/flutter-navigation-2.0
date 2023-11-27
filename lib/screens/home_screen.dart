@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navigation2/navigator.dart';
-import '../navigation/navigation_stack_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
