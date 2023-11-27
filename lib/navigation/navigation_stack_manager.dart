@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'navigation_stack_item.dart';
 
+
+
 class NavigationStackManager extends ChangeNotifier {
-  NavigationStackManager._(){
-    _pages.add(const NavStackItem(name: AppPage.home, path: AppRoutePaths.home));
+  final List<NavStackItem> routes;
+  late String initialRoutes;
+  final Page errorPage;
+
+  NavigationStackManager({
+    String initialRoutePath = "/",
+    required this.routes,
+    this.errorPage = const MaterialPage(
+      child: Center(
+        child: Text("Error"),
+      ),
+    ),
+  }) {
+    initialRoutes = initialRoutePath;
+    _pages.add(_validRouteFromPath(path: initialRoutePath));
   }
-
-  static final NavigationStackManager object = NavigationStackManager._();
-
-
 
   List<NavStackItem> _pages = [];
 
@@ -24,14 +35,25 @@ class NavigationStackManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void push(NavStackItem item) {
-    _pages.add(item);
+  NavStackItem? getRouteFromPath({required String path}) =>
+      routes.where((element) => element.path == path).firstOrNull;
+
+  NavStackItem _validRouteFromPath({required String path}) {
+    final stackItem = getRouteFromPath(path: path);
+    if (stackItem == null) {
+      throw Exception("Provided path $path routes is not exist!");
+    }
+    return stackItem;
+  }
+
+  void push(String path) {
+    _pages.add(_validRouteFromPath(path: path));
     notifyListeners();
   }
 
-  void clearAndPush(NavStackItem item) {
+  void clearAndPush(String path) {
     _pages.clear();
-    _pages.add(item);
+    _pages.add(_validRouteFromPath(path: path));
     notifyListeners();
   }
 
@@ -44,5 +66,3 @@ class NavigationStackManager extends ChangeNotifier {
     }
   }
 }
-
-

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navigation2/navigator.dart';
 import '../navigation/navigation_stack_item.dart';
-import '../navigation/navigation_stack_manager.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -18,9 +18,11 @@ class _SearchState extends State<Search> {
         child: Column(
           children: [
             const Text("search"),
-            ElevatedButton(onPressed: (){
-              NavigationStackManager.object.push(const NavStackItem(name: AppPage.settings, path: AppRoutePaths.settings));
-            }, child: const Text("Go to Setting") )
+            ElevatedButton(
+                onPressed: () {
+                  stackManager.push(AppRoutePaths.settings);
+                },
+                child: const Text("Go to Setting"))
           ],
         ),
       ),

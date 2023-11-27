@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
+
 class NavStackItem {
   final Object? data;
   final String path;
   final AppPage name;
+  final Page page;
 
-  const NavStackItem({required this.name, required this.path, this.data});
+  const NavStackItem(
+      {required this.name, required this.path, this.data, required this.page});
 }
 
 enum AppPage {
@@ -11,6 +15,7 @@ enum AppPage {
   settings,
   like,
   search,
+  other
 }
 
 class AppRoutePaths {
@@ -19,4 +24,3 @@ class AppRoutePaths {
   static const settings = "/settings";
   static const search = "/search";
 }
-

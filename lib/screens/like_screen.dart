@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigation2/navigator.dart';
 import '../navigation/navigation_stack_item.dart';
 import '../navigation/navigation_stack_manager.dart';
 
@@ -19,7 +20,7 @@ class _LikeState extends State<Like> {
           children: [
             const Text("like"),
             ElevatedButton(onPressed: (){
-              NavigationStackManager.object.push(const NavStackItem(name: AppPage.search, path: AppRoutePaths.search));
+              stackManager.push(AppRoutePaths.search);
             }, child: const Text("go to search ") )
           ],
         ),

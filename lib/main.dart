@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'navigation/app_back_button_dispatcher.dart';
 import 'navigation/main_route_delegate.dart';
-import 'navigation/navigation_stack_manager.dart';
+import 'navigation/route_infomation_parser.dart';
+import 'navigator.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +18,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
   @override
   void dispose() {
-    NavigationStackManager.object.dispose();
+    stackManager.dispose();
     super.dispose();
   }
 
@@ -25,8 +30,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Router(
-        backButtonDispatcher: AppBackButtonDispatcher(NavigationStackManager.object),
-        routerDelegate: MainRouterDelegate(stack: NavigationStackManager.object),
+        backButtonDispatcher: AppBackButtonDispatcher(stackManager),
+        routerDelegate: MainRouterDelegate(stack: stackManager),
+        routeInformationParser: UrlHandlerInformationParser(stackManager),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigation2/navigator.dart';
 import '../navigation/navigation_stack_item.dart';
 import '../navigation/navigation_stack_manager.dart';
 
@@ -19,7 +20,7 @@ class _SettingsState extends State<Settings> {
           children: [
             const Text("settings"),
             ElevatedButton(onPressed: (){
-              NavigationStackManager.object.clearAndPush(const NavStackItem(name: AppPage.home, path: AppRoutePaths.home));
+              stackManager.clearAndPush(AppRoutePaths.home);
             }, child: const Text("go to home") )
           ],
         ),

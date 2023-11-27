@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
-import '../screens/like_screen.dart';
-import '../screens/search_screen.dart';
-import '../screens/settings_screen.dart';
-import 'navigation_stack_item.dart';
 import 'navigation_stack_manager.dart';
 
 class MainRouterDelegate extends RouterDelegate<NavigationStackManager>
@@ -28,7 +23,7 @@ class MainRouterDelegate extends RouterDelegate<NavigationStackManager>
   @override
   Widget build(BuildContext context) {
     return Navigator(
-        key: navigatorKey, pages: _buildStack(), onPopPage: _onPopPage);
+        key: navigatorKey, pages: _buildPageStack(), onPopPage: _onPopPage);
   }
 
   bool _onPopPage(Route route, dynamic result) {
@@ -39,20 +34,12 @@ class MainRouterDelegate extends RouterDelegate<NavigationStackManager>
     return true;
   }
 
-  List<Page> _buildStack() => stack.pages.map((e) {
-        if (e.name == AppPage.settings) {
-          return const MaterialPage(
-              key: ValueKey("settings"), child: Settings());
-        } else if (e.name == AppPage.like) {
-          return const MaterialPage(key: ValueKey("like"), child: Like());
-        } else if (e.name == AppPage.search) {
-          return const MaterialPage(key: ValueKey("search"), child: Search());
-        }
-        return const MaterialPage(key: ValueKey("home"), child: HomePage());
-      }).toList();
+  List<Page> _buildPageStack() => stack.pages.map((e) => e.page).toList();
 
   @override
-  Future<void> setNewRoutePath(NavigationStackManager configuration) async {}
+  Future<void> setNewRoutePath(NavigationStackManager configuration) async {
+    stack.updateStack(configuration.pages);
+  }
 
   @override
   NavigationStackManager get currentConfiguration => stack;
