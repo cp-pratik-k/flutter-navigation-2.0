@@ -24,8 +24,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: stackManager,
-
+      routerDelegate: stackManager.routerDelegate,
+      routeInformationParser: stackManager.routeInformationParser,
+      backButtonDispatcher: stackManager.backButtonDispatcher,
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navigation2/navigation/route_infomation_parser.dart';
-import '../navigator.dart';
 import 'app_back_button_dispatcher.dart';
 import 'main_route_delegate.dart';
 import 'navigation_stack_item.dart';
