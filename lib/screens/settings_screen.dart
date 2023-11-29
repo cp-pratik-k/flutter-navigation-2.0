@@ -18,7 +18,7 @@ class _SettingsState extends State<Settings> {
           children: [
             const Text("settings"),
             ElevatedButton(onPressed: (){
-              stackManager.clearAndPush(AppRoutePaths.home);
+              router.clearAndPush(path: AppRoutePaths.home);
             }, child: const Text("go to home") )
           ],
         ),

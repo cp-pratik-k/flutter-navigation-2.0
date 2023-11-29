@@ -1,40 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:navigation2/navigation/models/route.dart';
+import 'package:navigation2/navigation/models/route_state.dart';
 import 'package:navigation2/navigation/route_infomation_parser.dart';
 import 'app_back_button_dispatcher.dart';
 import 'main_route_delegate.dart';
-import 'navigation_stack_item.dart';
 
-class NavigationStackManager extends ChangeNotifier
-    implements RouterConfig<NavStackItem> {
-  final List<NavStackItem> routes;
+class NavRouter extends ChangeNotifier implements RouterConfig<NavRoute> {
+  final List<NavRoute> routes;
   late String initialRoutes;
 
-  NavigationStackManager({
+  NavRouter({
     String initialRoutePath = "/",
     required this.routes,
   }) {
     initialRoutes = initialRoutePath;
-    _pages.add(route(path: initialRoutePath));
+    _routesStack.add(route(path: initialRoutePath));
   }
 
-  List<NavStackItem> _pages = [];
+  List<NavRoute> _routesStack = [];
 
-  List<NavStackItem> get pages => _pages;
+  List<NavRoute> get pages => _routesStack;
 
-  NavStackItem get currentState => _pages.last;
+  NavRoute get currentState => _routesStack.last;
 
-  NavStackItem get previousState =>
-      _pages.elementAt(_pages.indexOf(_pages.last) - 1);
+  NavRoute get previousState =>
+      _routesStack.elementAt(_routesStack.indexOf(_routesStack.last) - 1);
 
-  void updateStack(List<NavStackItem> newItems) {
-    _pages = List.from(newItems);
+  //Route based functions
+  void updateRoutes(List<NavRoute> newItems) {
+    _routesStack = List.from(newItems);
     notifyListeners();
   }
 
-  NavStackItem? routeOrNull({required String path}) =>
-      routes.where((element) => element.path == path).firstOrNull;
+  NavRoute? routeOrNull({required String path}) => routes
+      .where((route) => route.path(route.state.pathParam) == path)
+      .firstOrNull;
 
-  NavStackItem route({required String path}) {
+  NavRoute? namedRouteOrNull({required String name}) =>
+      routes.where((route) => route.name == name).firstOrNull;
+
+  NavRoute route({required String path}) {
     final stackItem = routeOrNull(path: path);
     if (stackItem == null) {
       throw Exception("Provided path $path routes is not exist!");
@@ -42,22 +47,56 @@ class NavigationStackManager extends ChangeNotifier
     return stackItem;
   }
 
-  void push(String path) {
-    _pages.add(route(path: path));
+  NavRoute namedRoute({required String name}) {
+    final route = namedRouteOrNull(name: name);
+    if (route == null) {
+      throw Exception("Provided $name named routes is not exist!");
+    }
+    return route;
+  }
+
+  //Path based navigation functions
+  void push({required String path, NavRouteState? state}) {
+    print("called");
+    _routesStack.add(route(path: path).copyWith(state: state));
     notifyListeners();
   }
 
-  void clearAndPush(String path) {
-    _pages.clear();
-    _pages.add(route(path: path));
+  void clearAndPush({required String path, NavRouteState? state}) {
+    _routesStack.clear();
+    _routesStack.add(route(path: path).copyWith(state: state));
     notifyListeners();
   }
 
-  bool canPop() => _pages.length > 1;
+  void replace({required String path, NavRouteState? state}) {
+    _routesStack.removeLast();
+    _routesStack.add(route(path: path).copyWith(state: state));
+    notifyListeners();
+  }
+
+  //Name based navigation functions
+  void pushNamed({required String name, NavRouteState? state}) {
+    _routesStack.add(namedRoute(name: name).copyWith(state: state));
+    notifyListeners();
+  }
+
+  void clearAndPushNamed({required String name, NavRouteState? state}) {
+    _routesStack.clear();
+    _routesStack.add(namedRoute(name: name).copyWith(state: state));
+    notifyListeners();
+  }
+
+  void replaceNamed({required String name, NavRouteState? state}) {
+    _routesStack.removeLast();
+    _routesStack.add(namedRoute(name: name).copyWith(state: state));
+    notifyListeners();
+  }
+
+  bool canPop() => _routesStack.length > 1;
 
   void pop() {
     if (canPop()) {
-      _pages.removeLast();
+      _routesStack.removeLast();
       notifyListeners();
     }
   }
@@ -67,13 +106,13 @@ class NavigationStackManager extends ChangeNotifier
       AppBackButtonDispatcher(this);
 
   @override
-  RouteInformationParser<NavStackItem>? get routeInformationParser =>
+  RouteInformationParser<NavRoute>? get routeInformationParser =>
       UrlHandlerInformationParser(this);
 
   @override
   RouteInformationProvider? get routeInformationProvider => null;
 
   @override
-  RouterDelegate<NavStackItem> get routerDelegate =>
-      MainRouterDelegate(stack: this);
+  RouterDelegate<NavRoute> get routerDelegate =>
+      MainRouterDelegate(router: this);
 }

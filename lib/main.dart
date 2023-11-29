@@ -17,16 +17,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
-    stackManager.dispose();
+    router.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerDelegate: stackManager.routerDelegate,
-      routeInformationParser: stackManager.routeInformationParser,
-      backButtonDispatcher: stackManager.backButtonDispatcher,
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      backButtonDispatcher: router.backButtonDispatcher,
     );
   }
 }

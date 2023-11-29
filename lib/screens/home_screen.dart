@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigation2/navigation/models/route_state.dart';
 import 'package:navigation2/navigator.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +18,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const Text("home"),
-            ElevatedButton(onPressed: (){
-              stackManager.push(AppRoutePaths.like);
-            }, child: const Text("go to like") )
+            ElevatedButton(
+                onPressed: () {
+                  router.push(
+                      path: AppRoutePaths.like,
+                      state: const NavRouteState(data: "This is data "));
+                },
+                child: const Text("go to like"))
           ],
         ),
       ),

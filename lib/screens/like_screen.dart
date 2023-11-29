@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:navigation2/navigator.dart';
 
 class Like extends StatefulWidget {
-  const Like({Key? key}) : super(key: key);
+  final String data;
+  const Like({Key? key, required this.data}) : super(key: key);
 
   @override
   State<Like> createState() => _LikeState();
@@ -11,15 +12,18 @@ class Like extends StatefulWidget {
 class _LikeState extends State<Like> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(),
       body: Center(
         child: Column(
           children: [
             const Text("like"),
-            ElevatedButton(onPressed: (){
-              stackManager.push(AppRoutePaths.search);
-            }, child: const Text("go to search ") )
+            Text(widget.data),
+            ElevatedButton(
+                onPressed: () {
+                  router.push(path: AppRoutePaths.search);
+                },
+                child: const Text("go to search "))
           ],
         ),
       ),

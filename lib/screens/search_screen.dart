@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
             const Text("search"),
             ElevatedButton(
                 onPressed: () {
-                  stackManager.push(AppRoutePaths.settings);
+                  router.push(path: AppRoutePaths.settings);
                 },
                 child: const Text("Go to Setting"))
           ],

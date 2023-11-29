@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'navigation_stack_manager.dart';
 
 class AppBackButtonDispatcher extends RootBackButtonDispatcher {
-  final NavigationStackManager _navigationStackManager;
+  final NavRouter _navigationStackManager;
 
   AppBackButtonDispatcher(this._navigationStackManager);
 

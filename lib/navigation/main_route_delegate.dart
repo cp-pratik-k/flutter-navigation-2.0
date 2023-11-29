@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:navigation2/navigation/navigation_stack_item.dart';
+import 'package:navigation2/navigation/models/route.dart';
 import 'navigation_stack_manager.dart';
 
-class MainRouterDelegate extends RouterDelegate<NavStackItem>
+class MainRouterDelegate extends RouterDelegate<NavRoute>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  final NavigationStackManager stack;
+  final NavRouter router;
 
   MainRouterDelegate({
-    required this.stack,
+    required this.router,
   }) : super() {
-    stack.addListener(notifyListeners);
+    router.addListener(notifyListeners);
   }
 
   @override
@@ -17,7 +17,7 @@ class MainRouterDelegate extends RouterDelegate<NavStackItem>
 
   @override
   void dispose() {
-    stack.removeListener(notifyListeners);
+    router.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -31,17 +31,21 @@ class MainRouterDelegate extends RouterDelegate<NavStackItem>
     if (!route.didPop(result)) {
       return false;
     }
-    stack.pop();
+    router.pop();
     return true;
   }
 
-  List<Page> _buildPageStack() => stack.pages.map((e) => e.page).toList();
+  List<Page> _buildPageStack() => router.pages
+      .map((route) => route.page(route.state, UniqueKey()))
+      .toList();
 
   @override
-  Future<void> setNewRoutePath(NavStackItem configuration) async {
-    stack.clearAndPush(configuration.path);
+  Future<void> setNewRoutePath(NavRoute configuration) async {
+    if (configuration.path != router.currentState.path) {
+      router.push(path: configuration.path(configuration.state.pathParam));
+    }
   }
 
   @override
-  NavStackItem get currentConfiguration => stack.currentState;
+  NavRoute get currentConfiguration => router.currentState;
 }
