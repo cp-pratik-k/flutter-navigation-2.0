@@ -57,7 +57,6 @@ class NavRouter extends ChangeNotifier implements RouterConfig<NavRoute> {
 
   //Path based navigation functions
   void push({required String path, NavRouteState? state}) {
-    print("called");
     _routesStack.add(route(path: path).copyWith(state: state));
     notifyListeners();
   }

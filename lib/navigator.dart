@@ -10,21 +10,26 @@ NavRouter router = NavRouter(initialRoutePath: AppRoutePaths.home, routes: [
   NavRoute(
       name: AppRouteNames.home,
       path: (pathParam) => AppRoutePaths.home,
-      page: (state, pageKey) => const MaterialPage(child: HomePage())),
+      page: (state, pageKey) =>
+          MaterialPage(key: pageKey, child: const HomePage())),
   NavRoute<String>(
       name: AppRouteNames.like,
       path: (pathParam) => AppRoutePaths.like,
-      page: (state, pageKey) =>  MaterialPage(child: Like(data: state.data,))),
+      page: (state, pageKey) => MaterialPage(
+          key: pageKey,
+          child: Like(
+            data: state.data,
+          ))),
   NavRoute(
       name: AppRouteNames.search,
       path: (pathParam) => AppRoutePaths.search,
       page: (state, pageKey) =>
-          const MaterialPage(key: ValueKey('search'), child: Search())),
+          MaterialPage(key: pageKey, child: const Search())),
   NavRoute(
       name: AppRouteNames.settings,
       path: (pathParam) => AppRoutePaths.settings,
       page: (state, pageKey) =>
-          const MaterialPage(key: ValueKey('settings'), child: Settings())),
+          MaterialPage(key: pageKey, child: const Settings())),
 ]);
 
 class AppRouteNames {

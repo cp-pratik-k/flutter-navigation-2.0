@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:navigation2/navigation/models/route.dart';
 import 'package:flutter/material.dart';
-
 import 'navigation_stack_manager.dart';
 
 class UrlHandlerInformationParser extends RouteInformationParser<NavRoute> {
@@ -13,12 +12,13 @@ class UrlHandlerInformationParser extends RouteInformationParser<NavRoute> {
   Future<NavRoute> parseRouteInformation(
       RouteInformation routeInformation) async {
     final pathSegments = routeInformation.uri.pathSegments;
+    final path = '/${pathSegments.join('/')}';
 
     if (pathSegments.isEmpty) {
       return router.route(path: router.initialRoutes);
     } else {
-      if (router.routeOrNull(path: "/${pathSegments.first}") != null) {
-        return router.route(path: "/${pathSegments.first}");
+      if (router.routeOrNull(path: path) != null) {
+        return router.route(path: path);
       } else {
         return router.route(path: router.initialRoutes);
       }

@@ -24,7 +24,10 @@ class MainRouterDelegate extends RouterDelegate<NavRoute>
   @override
   Widget build(BuildContext context) {
     return Navigator(
-        key: navigatorKey, pages: _buildPageStack(), onPopPage: _onPopPage);
+      key: navigatorKey,
+      pages: _buildPageStack(),
+      onPopPage: _onPopPage,
+    );
   }
 
   bool _onPopPage(Route route, dynamic result) {
